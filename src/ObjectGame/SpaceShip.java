@@ -20,6 +20,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 import Helper.*;
+import UserInterface.GameScreen;
 
 
 // Inheritance using method in ObjectAction
@@ -59,8 +60,10 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 	public List<Bullet> bullets = new CopyOnWriteArrayList<>();
 	
 	// Create Constructor SpaceShip Initialized
-	
-	public SpaceShip() {
+
+	GameScreen gs;
+	public SpaceShip(GameScreen gs) {
+		this.gs = gs;
 		spaceshipeImage = GetResourceImage.ImageCall("/images/spaceship.png");
 	}
 		
@@ -230,6 +233,7 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(this.gs.getShowMenuGame()) return;
 		this.shoot();
 	}
 
@@ -276,6 +280,7 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 
 	@Override
 	public void shoot() {
+		if(this.gs.getShowMenuGame()) return;
 		if (this.getAmmo() != 0) {
 			playShootSound(); // Play shooting sound
 			this.setAmmo(this.getAmmo() - 1);
@@ -332,7 +337,7 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		
+		if(this.gs.getShowMenuGame()) return;
 		// keypress catch event user press keyboard  and to do
 		// if user press r then..
 	

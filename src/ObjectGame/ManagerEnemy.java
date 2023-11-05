@@ -57,11 +57,11 @@ public class ManagerEnemy {
             
     		if(enemies.size() == 0) {	
     			for(int i = 0; i < random.nextInt(10); i++) {
-    				enemies.add(new Enemy(random.nextInt(500), 65, (random.nextInt(4) + 1) , (random.nextInt(15) + 1)));
+    				enemies.add(new Enemy(random.nextInt(500), 65, (random.nextInt(2) + 1) , (random.nextInt(15) + 1)));
     			}
     			
     		}else {
-    			enemies.add(new Enemy(random.nextInt(500), 65 , (random.nextInt(4) + 1) , (random.nextInt(15) + 1)));
+    			enemies.add(new Enemy(random.nextInt(500), 65 , (random.nextInt(2) + 1) , (random.nextInt(15) + 1)));
     		}
     		
 			System.out.println("Enemies Respawn ...");

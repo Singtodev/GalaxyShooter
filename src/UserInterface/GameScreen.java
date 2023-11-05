@@ -39,7 +39,7 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 	private static final long serialVersionUID = 1L;
 
 
-	public static boolean showMenuGame = true;
+	boolean showMenuGame = true;
 
 
 	GameMenu gm;
@@ -67,7 +67,7 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 
 		// Create Game Menu Screen
 
-		gm = new GameMenu();
+		gm = new GameMenu(this);
 		
 		// I want to Create Galaxy Space Same this Panel
 		// Set GameScreen Background to Color Black
@@ -75,7 +75,7 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		this.setBackground(Color.black);
 		
 		// Creat Object SpaceShip
-		spaceship = new SpaceShip();
+		spaceship = new SpaceShip(this);
 		
 		// Create Object StatusBar
 		statusbar = new StatusBar(this , spaceship);
@@ -95,12 +95,16 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		this.addMouseListener(spaceship);
 		this.addMouseMotionListener(spaceship);
 
+		this.addMouseListener(gm);
+
 		
 	}
 	
 	// Method for run this game
 	public void startGame() {
-		
+		this.showMenuGame = true; // Show the game menu initially
+		this.repaint(); // Repaint the screen to show the menu
+
 		// controll thread go run....
 		thread.start();
 		
@@ -141,16 +145,12 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		
 		while(true) {
 				try {
+
+
+					// check game is over ?
 					
-					// GameMenu is started not update everything
-					if(this.showMenuGame){
-						return;
-					}
-					
-				     // check game is over ?
-					
-					if(!this.gameIsOver()) {
-						
+					if(!this.gameIsOver() && !this.showMenuGame) {
+
 						// Game is running not end 
 						// TODO
 						
@@ -197,18 +197,20 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
         g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 
 
-		if(this.showMenuGame){
 
+		// Go draw some thing...
+
+		if (this.getShowMenuGame()) {
 			this.gm.drawGameMenu(g2);
-
 			return;
+		}else{
+			this.removeMouseListener(gm);
 		}
         
-		// Go draw some thing...
-        
         // check game is over ?
-		if(!this.gameIsOver()) {
-			
+		if(!this.gameIsOver() && !this.showMenuGame) {
+
+
 			// Game is running not end 
 			// TODO
 			
@@ -255,7 +257,7 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		// check is game over and check user wana play again ?
 		// user press key enter for play
 		
-		if(this.gameIsOver() && e.getKeyCode() == KeyEvent.VK_ENTER) {
+		if(this.gameIsOver() && !this.showMenuGame && e.getKeyCode() == KeyEvent.VK_ENTER) {
 			this.spaceship.setHealth(100);
 			this.spaceship.setScore(0);
 			this.spaceship.setDestory_enemies(0);
@@ -273,8 +275,14 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
 
+
+	public boolean getShowMenuGame() {
+		return this.showMenuGame;
+	}
+
+	public void setShowMenuGame(boolean showMenuGame) {
+		this.showMenuGame = showMenuGame;
+	}
 }
 
