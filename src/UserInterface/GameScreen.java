@@ -39,6 +39,12 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 	private static final long serialVersionUID = 1L;
 
 
+	public static boolean showMenuGame = true;
+
+
+	GameMenu gm;
+
+
 	public void playBackgroundSound() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("bg.wav"));
@@ -57,6 +63,11 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		// Create thread in this class using global variable
 		
 		thread = new Thread(this);
+
+
+		// Create Game Menu Screen
+
+		gm = new GameMenu();
 		
 		// I want to Create Galaxy Space Same this Panel
 		// Set GameScreen Background to Color Black
@@ -131,7 +142,10 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		while(true) {
 				try {
 					
-
+					// GameMenu is started not update everything
+					if(this.showMenuGame){
+						return;
+					}
 					
 				     // check game is over ?
 					
@@ -181,7 +195,14 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		
         g2.setColor(Color.black);
         g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-        
+
+
+		if(this.showMenuGame){
+
+			this.gm.drawGameMenu(g2);
+
+			return;
+		}
         
 		// Go draw some thing...
         
