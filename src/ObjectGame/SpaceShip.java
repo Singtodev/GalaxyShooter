@@ -43,7 +43,7 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 	public static String alertMessage = "";
 	
 	private long lastReloadTime = 0;
-	private long reloadCooldown = 3000; // Cooldown duration in milliseconds (3 seconds)
+	private long reloadCooldown = 5000; // Cooldown duration in milliseconds (5 seconds)
 	private boolean isReloading = false;
 	private Color colorAlertMessage = Color.red;
 	

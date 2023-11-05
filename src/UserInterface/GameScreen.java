@@ -243,6 +243,7 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 			this.manager_enemies.reset();
 			this.manager_enemies.respawnEnemy();
 			this.spaceship.rebirth();
+			this.gameoverSoundPlayed = false;
 		}
 		
 	}
