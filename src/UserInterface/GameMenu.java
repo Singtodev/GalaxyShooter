@@ -6,6 +6,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.awt.Cursor;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.awt.Point;
+import javax.swing.JFrame;
 
 public class GameMenu implements MouseListener {
 
@@ -49,6 +54,13 @@ public class GameMenu implements MouseListener {
             this.gs.setShowMenuGame(false);
             System.out.println(this.gs.getShowMenuGame());
             System.out.println("Start button clicked.");
+
+            Cursor invisibleCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                    new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"
+            );
+
+            this.gs.setCursor(invisibleCursor);
+
         } else if (mouseX >= 250 && mouseX <= 325 && mouseY >= 350 && mouseY <= 400) {
             // Handle the quit button click
             System.out.println("Quit button clicked.");
