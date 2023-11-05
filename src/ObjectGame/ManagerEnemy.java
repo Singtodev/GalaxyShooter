@@ -17,6 +17,9 @@ public class ManagerEnemy {
 	
 	// declare variable
 	private List<Enemy> enemies = new CopyOnWriteArrayList<>();
+
+	private List<Energy> energies = new CopyOnWriteArrayList<>();
+
 	private Random random;
 	private long lastSpawnTime = 0;
 	private long Cooldown = 3000; // Cooldown duration in milliseconds (3 seconds)
@@ -40,6 +43,7 @@ public class ManagerEnemy {
 	
 	public void reset() {
 		this.enemies.clear();
+		this.energies.clear();
 	}
 	
 	
@@ -55,13 +59,14 @@ public class ManagerEnemy {
         	
             lastSpawnTime = currentTime;
             
-    		if(enemies.size() == 0) {	
-    			for(int i = 0; i < random.nextInt(10); i++) {
+    		if(enemies.size() == 0) {
+
+    			for(int i = 0; i < random.nextInt((this.sp.getDestory_enemies() + 10) / 10 ) + random.nextInt(10); i++) {
     				enemies.add(new Enemy(random.nextInt(500), 65, (random.nextInt(3) + 1) , (random.nextInt(15) + 1)));
     			}
     			
     		}else {
-    			enemies.add(new Enemy(random.nextInt(500), 65 , (random.nextInt(3) + 1) , (random.nextInt(15) + 1)));
+    			enemies.add(new Enemy(random.nextInt(500), 65 , (random.nextInt(3) + 1) , (random.nextInt(25) + 1)));
     		}
     		
 			System.out.println("Enemies Respawn ...");
@@ -71,7 +76,35 @@ public class ManagerEnemy {
 	
 	
 	// move enemy to player
-	
+
+
+	public void moveAllEnergy(){
+		if(energies.size() == 0) return;
+
+		for(int i = energies.size() - 1; i >= 0  ;i--) {
+
+			try {
+				Energy energy = energies.get(i);
+
+				if(energy != null) {
+					energy.setPositionY(energy.getPositionY() + 3);
+					if(energy.getPositionY() >= 550) {
+						int rand = random.nextInt(4) + 1;
+						this.sp.setScore(this.sp.getScore() - rand );
+						this.sp.setHealth(this.sp.getHealth() - rand );
+						this.sp.setColorAlertMessage(Color.red);
+						this.sp.setAlertMessage("-" + rand + "HP");
+						energies.remove(i);
+					}
+				}
+			} catch (ArrayIndexOutOfBoundsException err) {
+				return;
+			}
+
+
+		}
+
+	}
 	public void moveAllEnemy() {
 		
         if(enemies.size() == 0) return;
@@ -132,14 +165,20 @@ public class ManagerEnemy {
 					                	
 					                    this.sp.bullets.remove(i);
 					                    
-					    				enemy.setHealth(enemy.getHealth() - 1);
+					    				enemy.setHealth(enemy.getHealth() - (random.nextInt(3) + 1));
 					    				
 					    				if(enemy.getHealth() <= 0) {
 					    					enemies.remove(j);
 						                    this.sp.setScore(this.sp.getScore() + 10);
 						                    this.sp.setDestory_enemies(this.sp.getDestory_enemies() + 1);
 											playDeadSound();
-			
+
+											double rand = random.nextDouble(10) + 1;
+											if( rand >= (double)8.20 ){
+												System.out.println("Energy Spawn ...");
+												energies.add(new Energy(enemy.getPositionX() , enemy.getPositionY()));
+											}
+
 					    				}
 					               }
 				                }
@@ -167,6 +206,29 @@ public class ManagerEnemy {
 			e.printStackTrace();
 		}
 	}
+
+
+	public void energyHitSpaceShip(){
+		if(energies.size() == 0 ) return;
+
+		for (int i = energies.size() - 1; i >= 0; i--) {
+			Energy energy = energies.get(i);
+			if (energy.intersects(this.sp)){
+
+				if(this.sp.getHealth() + energy.getHeal() >= 100){
+					this.sp.setHealth(100);
+					this.sp.setColorAlertMessage(Color.green);
+					this.sp.setAlertMessage("Your hp is full !");
+				}else{
+					this.sp.setHealth(this.sp.getHealth() + energy.getHeal());
+					this.sp.setColorAlertMessage(Color.green);
+					this.sp.setAlertMessage("+" + energy.getHeal() + "HP");
+				}
+				energies.remove(i);
+			}
+		}
+	}
+
 
 
 	// enemy hit  player hp decrease
@@ -210,6 +272,10 @@ public class ManagerEnemy {
 	    for (Enemy enemy : enemies) {
 	    	enemy.draw(g2);
 	    }
+
+		for(Energy energy : energies){
+			energy.draw(g2);
+		}
 	    
 	}
 	

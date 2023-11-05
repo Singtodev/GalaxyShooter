@@ -37,7 +37,7 @@ public class StatusBar {
 		g2.drawString("Hp : " + this.sp.getHealth() , 20, 45);
 		g2.drawString("Ammo : " + this.sp.getAmmo() , 100, 45);
 		g2.drawString("Score : " + this.sp.getScore(), 500, 25);
-		
+		g2.drawString("Level : " + (int)((this.sp.getScore() + 223) / 223), 500, 45);
 		
 		// check player show message if have message then go write else go pass
 		// note enemy hit player show damage ...
