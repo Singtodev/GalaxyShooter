@@ -8,6 +8,10 @@ import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.awt.Cursor;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.awt.Point;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -83,6 +87,12 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		this.addKeyListener(spaceship);
 		this.addMouseListener(spaceship);
 		this.addMouseMotionListener(spaceship);
+
+		//invisibleCursor
+		Cursor invisibleCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+				new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"
+		);
+		this.setCursor(invisibleCursor);
 
 		
 	}
@@ -215,6 +225,8 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 			g2.drawString("Your Score : " + this.spaceship.getScore(), 200, 200);
 			g2.drawString("Destory Enemies : " + this.spaceship.getDestory_enemies(), 200, 240);
 			g2.drawString("Press Enter to play again !.", 200, 300);
+
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 
 		
@@ -244,6 +256,10 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 			this.manager_enemies.respawnEnemy();
 			this.spaceship.rebirth();
 			this.gameoverSoundPlayed = false;
+			Cursor invisibleCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+					new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"
+			);
+			this.setCursor(invisibleCursor);
 		}
 		
 	}
