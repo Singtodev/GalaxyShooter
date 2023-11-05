@@ -263,21 +263,29 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 
 	
 	// method shoot extends abstrac class write some thing in object...
-	
-	@Override
-	public void shoot() {
-		if(this.getAmmo() != 0) {
-			
-			// support linux sound need sound shoot here...
-			
-			// Toolkit.getDefaultToolkit().beep();
-			this.setAmmo(this.getAmmo() - 1);
-			bullets.add(new Bullet(this.positionX + 50 ,this.positionY));
-		}else {
-            this.setColorAlertMessage(Color.red);
-			this.setAlertMessage("Press R for Reload");
+	public void playShootSound() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("pew.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void shoot() {
+		if (this.getAmmo() != 0) {
+			playShootSound(); // Play shooting sound
+			this.setAmmo(this.getAmmo() - 1);
+			bullets.add(new Bullet(this.positionX + 50, this.positionY));
+		} else {
+			this.setColorAlertMessage(Color.red);
+			SpaceShip.setAlertMessage("Press R for Reload");
+		}
+	}
+
 
 
 	@Override
@@ -309,6 +317,17 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 		
 	}
 
+	public void playReloadSound() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("reload.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -325,7 +344,8 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 	            this.setAmmo(20); // Reload ammo
 	            this.setColorAlertMessage(Color.green);
 	            SpaceShip.setAlertMessage("Reload Success");
-	        } else {
+				playReloadSound();
+			} else {
 	            // Inform the player that they need to wait for the cooldown
 	            this.setColorAlertMessage(Color.red);
 	            SpaceShip.setAlertMessage("Reloading is on cooldown .");

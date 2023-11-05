@@ -5,8 +5,14 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 
 import javax.swing.JPanel;
 
@@ -14,8 +20,11 @@ import ObjectGame.Enemy;
 import ObjectGame.ManagerEnemy;
 import ObjectGame.SpaceShip;
 
+
+
+
 public class GameScreen extends JPanel implements Runnable , KeyListener {
-	
+
 
 	// Declare variable
 	
@@ -28,7 +37,21 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 	// Runnable want to unique serial generate this
 	
 	private static final long serialVersionUID = 1L;
-	
+
+
+	public void playBackgroundSound() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("bg.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the background sound continuously
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
 	public GameScreen() {
 		
 		// Create thread in this class using global variable
@@ -48,6 +71,8 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		
 		// Create Object Manager Enemies
 		manager_enemies = new ManagerEnemy(spaceship);
+
+		playBackgroundSound(); // background.wav
 		
 		this.setFocusable(true);  // Ensure the component can receive focus
 		this.requestFocusInWindow(); 
@@ -69,11 +94,30 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		thread.start();
 		
 	}
-	
-	
+
+	public void playGameOverSound() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("gameover.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	private boolean gameoverSoundPlayed = false;
+
 	public boolean gameIsOver() {
+		if (this.spaceship.getHealth() <= 0 && !gameoverSoundPlayed) {
+			playGameOverSound(); // Play game over sound
+			gameoverSoundPlayed = true; // Set the flag to true to indicate the sound has been played
+			return true;
+		}
 		return this.spaceship.getHealth() <= 0;
 	}
+
 	
 	// If startGame is running call method thread.start()
 	// is mean go run function run below ...

@@ -2,9 +2,15 @@ package ObjectGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.File;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 
 public class ManagerEnemy {
 	
@@ -94,8 +100,20 @@ public class ManagerEnemy {
 
 		}
 	}
-	
-	
+
+
+	public void playDeadSound() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("dead.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
 	//  hit enemy  player score pluse +++;
 	
 	public void hitEnemy() {
@@ -120,6 +138,7 @@ public class ManagerEnemy {
 					    					enemies.remove(j);
 						                    this.sp.setScore(this.sp.getScore() + 10);
 						                    this.sp.setDestory_enemies(this.sp.getDestory_enemies() + 1);
+											playDeadSound();
 			
 					    				}
 					               }
@@ -136,8 +155,20 @@ public class ManagerEnemy {
 		  }
 
 	}
-	
-	
+
+
+	public void playBombSound() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("bomb.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
 	// enemy hit  player hp decrease
 	
 	public void enemyHitSpaceShip() {
@@ -154,6 +185,7 @@ public class ManagerEnemy {
 					int rand = random.nextInt(10) + 1;
 					this.sp.setColorAlertMessage(Color.red);
 					this.sp.setAlertMessage("-" + rand + "HP");
+					playBombSound();
 	            }
 
 	  }

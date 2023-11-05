@@ -1,9 +1,15 @@
 package ObjectGame;
 
+import Helper.GetResourceImage;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.util.Random;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 
 public class Enemy {
 	
@@ -21,6 +27,8 @@ public class Enemy {
 	
 	public Random random;
 
+	BufferedImage meteor;
+
 
 	// constructor
 	public Enemy(int positionX , int positionY , int speed , int health) {
@@ -34,10 +42,12 @@ public class Enemy {
 		this.g = random.nextInt(256);
 		this.b = random.nextInt(256);
 		
-		int size = random.nextInt(10) + 20;
+		int size = random.nextInt(20) + 20;
 		
 		this.width = size;
 		this.height = size;
+
+		meteor = GetResourceImage.ImageCall("/images/meteor.png");
 	}
 
 	// get health
@@ -65,17 +75,18 @@ public class Enemy {
 		return positionX;
 	}
 	
-	// draw 
-	
+	// draw
 	public void draw(Graphics g2) {
+		// Load the enemy image
 
-		g2.setColor(new Color(this.r,this.g,this.b));
-	    g2.fillRect(this.getPositionX(), this.getPositionY(), this.width, this.height);
-	    g2.setColor(Color.green);
-	    g2.drawString(""+ this.getHealth(), this.getPositionX() + 5 , (this.getPositionY() - this.height + 20));
+		g2.drawImage(meteor, this.getPositionX(), this.getPositionY(), this.width, this.height, null);
+
+		// Draw health
+		g2.setColor(Color.green);
+		g2.drawString("" + this.getHealth(), this.getPositionX() + 5, (this.getPositionY() - this.height + 20));
 	}
 
-	
+
 	// set position x
 	public void setPositionX(int positionX) {
 		this.positionX = positionX;
