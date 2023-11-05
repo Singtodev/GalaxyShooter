@@ -99,14 +99,8 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 		this.addMouseListener(spaceship);
 		this.addMouseMotionListener(spaceship);
 
-		//invisibleCursor
-		Cursor invisibleCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-				new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"
-		);
-		this.setCursor(invisibleCursor);
-
 		this.addMouseListener(gm);
-
+		//invisibleCursor
 		
 	}
 	
@@ -114,7 +108,7 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 	public void startGame() {
 		this.showMenuGame = true; // Show the game menu initially
 		this.repaint(); // Repaint the screen to show the menu
-
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		// controll thread go run....
 		thread.start();
 		
@@ -135,6 +129,15 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 	private boolean gameoverSoundPlayed = false;
 
 	public boolean gameIsOver() {
+
+		if(!this.getShowMenuGame()){
+			Cursor invisibleCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+					new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"
+			);
+
+			this.setCursor(invisibleCursor);
+		}
+
 		if (this.spaceship.getHealth() <= 0 && !gameoverSoundPlayed) {
 			playGameOverSound(); // Play game over sound
 			gameoverSoundPlayed = true; // Set the flag to true to indicate the sound has been played
@@ -248,8 +251,6 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 			g2.drawString("Your Score : " + this.spaceship.getScore(), 200, 200);
 			g2.drawString("Destory Enemies : " + this.spaceship.getDestory_enemies(), 200, 240);
 			g2.drawString("Press Enter to play again !.", 200, 300);
-
-			this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 
 		
