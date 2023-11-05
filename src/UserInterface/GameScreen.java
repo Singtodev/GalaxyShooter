@@ -32,7 +32,7 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 
 	// Declare variable
 	
-	private Thread thread , timerThread;
+	private Thread thread;
 	private SpaceShip spaceship;
 	private StatusBar statusbar;
 	private ManagerEnemy manager_enemies;

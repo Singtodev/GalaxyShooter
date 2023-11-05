@@ -233,6 +233,7 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(this.gs.gameIsOver()) return;
 		if(this.gs.getShowMenuGame()) return;
 		this.shoot();
 	}
@@ -280,6 +281,7 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 
 	@Override
 	public void shoot() {
+		if(this.gs.gameIsOver()) return;
 		if(this.gs.getShowMenuGame()) return;
 		if (this.getAmmo() != 0) {
 			playShootSound(); // Play shooting sound
@@ -336,7 +338,7 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+		if(this.gs.gameIsOver()) return;
 		if(this.gs.getShowMenuGame()) return;
 		// keypress catch event user press keyboard  and to do
 		// if user press r then..
