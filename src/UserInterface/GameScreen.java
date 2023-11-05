@@ -171,8 +171,16 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 						
 						manager_enemies.hitEnemy();
 						
-						// updat check enemy hit spaceship
+						// update check enemy hit spaceship
 						manager_enemies.enemyHitSpaceShip();
+
+
+						// update move spaceship
+						manager_enemies.moveAllEnergy();
+						// update energy hit spaceship
+						manager_enemies.energyHitSpaceShip();
+
+
 					}
 					
 
@@ -221,7 +229,7 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 	        // draw status bar
 	        statusbar.draw(g2);
 	        
-			// draw space ship
+			// draw spaceship
 			spaceship.draw(g2);
 			
 			// draw enemies
@@ -238,10 +246,10 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 			
 			g2.setColor(Color.white);
 			g2.setFont(new Font("Courier New",1,12));
-
-			g2.drawString("Your Score : " + this.spaceship.getScore(), 200, 200);
-			g2.drawString("Destory Enemies : " + this.spaceship.getDestory_enemies(), 200, 240);
-			g2.drawString("Press Enter to play again !.", 200, 300);
+			g2.drawString("Level : " + (int)((this.spaceship.getScore() + 223) / 223), 200, 220);
+			g2.drawString("Your Score : " + this.spaceship.getScore(), 200, 240);
+			g2.drawString("Destory Enemies : " + this.spaceship.getDestory_enemies(), 200, 260);
+			g2.drawString("Press Enter to play again !.", 200, 340);
 		}
 
 		

@@ -27,7 +27,7 @@ public class Enemy {
 	
 	public Random random;
 
-	BufferedImage meteor;
+	BufferedImage enemyPicture;
 
 
 	// constructor
@@ -42,12 +42,35 @@ public class Enemy {
 		this.g = random.nextInt(256);
 		this.b = random.nextInt(256);
 		
-		int size = random.nextInt(20) + 20;
+		int size = random.nextInt(40) + 20;
 		
 		this.width = size;
 		this.height = size;
 
-		meteor = GetResourceImage.ImageCall("/images/meteor.png");
+		enemyPicture = randomEnemyPicture();
+	}
+
+
+
+	public BufferedImage randomEnemyPicture(){
+		int ran = random.nextInt(5)  + 1;
+
+		switch (ran){
+			case 1:
+				return GetResourceImage.ImageCall("/images/meteor.png");
+			case 2:
+				return GetResourceImage.ImageCall("/images/meteor_2.png");
+			case 3:
+				return GetResourceImage.ImageCall("/images/alien.png");
+			case 4:
+				return GetResourceImage.ImageCall("/images/spaceship_1.png");
+			case 5:
+				return GetResourceImage.ImageCall("/images/spaceship_2.png");
+			default:
+				break;
+		}
+
+		return null;
 	}
 
 	// get health
@@ -79,10 +102,10 @@ public class Enemy {
 	public void draw(Graphics g2) {
 		// Load the enemy image
 
-		g2.drawImage(meteor, this.getPositionX(), this.getPositionY(), this.width, this.height, null);
+		g2.drawImage(enemyPicture, this.getPositionX(), this.getPositionY(), this.width, this.height, null);
 
 		// Draw health
-		g2.setColor(Color.green);
+		g2.setColor(Color.red);
 		g2.drawString("" + this.getHealth(), this.getPositionX() + 5, (this.getPositionY() - this.height + 20));
 	}
 
