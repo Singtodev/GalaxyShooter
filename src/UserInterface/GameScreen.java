@@ -238,7 +238,7 @@ public class GameScreen extends JPanel implements Runnable , KeyListener {
 			this.spaceship.setHealth(100);
 			this.spaceship.setScore(0);
 			this.spaceship.setDestory_enemies(0);
-			this.spaceship.setAmmo(20);
+			this.spaceship.setAmmo(50);
 			this.spaceship.setAlertMessage("");
 			this.manager_enemies.reset();
 			this.manager_enemies.respawnEnemy();

@@ -170,28 +170,39 @@ public class ManagerEnemy {
 
 
 	// enemy hit  player hp decrease
-	
-	public void enemyHitSpaceShip() {
-		
-          if(enemies.size() == 0) return;
-          
-		  for (int i = enemies.size() - 1; i >= 0; i--) {
-	            Enemy enemy = enemies.get(i);
-	            
-	            if(enemy.intersects(this.sp)) {
-                    this.sp.setScore(this.sp.getScore() - (random.nextInt(4) + 1));
-                    this.sp.setHealth(this.sp.getHealth() - (random.nextInt(4) + 20));
-                    enemies.remove(i);
-					int rand = random.nextInt(10) + 1;
-					this.sp.setColorAlertMessage(Color.red);
-					this.sp.setAlertMessage("-" + rand + "HP");
-					playBombSound();
-	            }
 
-	  }
+	public void enemyHitSpaceShip() {
+		if (enemies.size() == 0) return;
+
+		for (int i = enemies.size() - 1; i >= 0; i--) {
+			Enemy enemy = enemies.get(i);
+
+			if (enemy.intersects(this.sp)) {
+				int scoreChange = random.nextInt(4) + 1;
+				int newScore = this.sp.getScore() - scoreChange;
+				if (newScore < 0) {
+					newScore = 0;  // Ensure score doesn't go below 0
+				}
+				this.sp.setScore(newScore);
+
+				int healthChange = random.nextInt(4) + 20;
+				int newHealth = this.sp.getHealth() - healthChange;
+				if (newHealth < 0) {
+					newHealth = 0;  // Ensure health doesn't go below 0
+				}
+				this.sp.setHealth(newHealth);
+
+				enemies.remove(i);
+				int rand = random.nextInt(10) + 1;
+				this.sp.setColorAlertMessage(Color.red);
+				this.sp.setAlertMessage("-" + rand + "HP");
+				playBombSound();
+			}
+		}
 	}
-	
-	
+
+
+
 	// draw object 
 	
 	public void drawAllEnemy(Graphics g2) {

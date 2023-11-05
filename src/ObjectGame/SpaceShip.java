@@ -32,7 +32,7 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 	
 	// declare variable 
 	public static int health = 100;
-	public static int ammo = 20;
+	public static int ammo = 50;
 	public static int score = 0;
 	public static int destory_enemies = 0;
 	public static int positionX = 100;
@@ -341,7 +341,7 @@ public class SpaceShip extends ObjectAction implements MouseMotionListener , Mou
 	        if (currentTime - lastReloadTime >= reloadCooldown) {
 	            // Sufficient cooldown time has passed, allow reloading
 	            lastReloadTime = currentTime;
-	            this.setAmmo(20); // Reload ammo
+	            this.setAmmo(50); // Reload ammo
 	            this.setColorAlertMessage(Color.green);
 	            SpaceShip.setAlertMessage("Reload Success");
 				playReloadSound();
