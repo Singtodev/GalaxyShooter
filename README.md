@@ -18,3 +18,5 @@ GalaxyShoot is an exciting and immersive 2D space shooter game developed in Java
 - Score
 - Sound Game
 
+
+![Galaxy]([https://example.com/image-url.jpg](https://drive.google.com/uc?export=view&id=)https://drive.google.com/uc?export=view&id=1I35bLHQoLK_myRxWPYyen2enYybIcB0X)
